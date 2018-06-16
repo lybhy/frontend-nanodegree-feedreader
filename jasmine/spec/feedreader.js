@@ -26,34 +26,27 @@ $(function() {
             expect(allFeeds.length).not.toBe(0);
         });
 
-
         /* This is a test that loops through each feed
          * in the allFeeds object and ensures it has a URL defined
          * and that the URL is not empty.
          */
         it('is defined and not empty URL', function() {
-            var urlFromAllFeeds = function() {
-                allfeeds.forEach(function(element) {
-                    return element.url;
-                })
+            for (i in allFeeds) {
+                expect(allFeeds[i].url).toBeDefined();
+                expect(allFeeds[i].url).not.toBe('');
             }
-            expect(urlFromAllFeeds).toBeDefined();
-            expect(urlFromAllFeeds).not.toBe('');
-        })
+        });
 
         /* This is a test that loops through each feed
          * in the allFeeds object and ensures it has a name defined
          * and that the name is not empty.
          */
         it('is defined and not empty name', function() {
-            var nameFromAllFeeds = function() {
-                allfeeds.forEach(function(element) {
-                    return element.name;
-                })
+            for (i in allFeeds) {
+                expect(allFeeds[i].name).toBeDefined();
+                expect(allFeeds[i].name).not.toBe('');
             }
-            expect(nameFromAllFeeds).toBeDefined();
-            expect(nameFromAllFeeds).not.toBe('');
-        })
+        });
     });
 
     /* test suite named "The menu" */
@@ -93,13 +86,14 @@ $(function() {
          */
 
         beforeEach(function(done) {
-            loadFeed(0, done);
+            loadFeed(0, function() {
+                done();
+            });
         })
 
         it('should be at least one entry in the feeds container', function() {
-            var entries = $('.entry');
+            var entries = $('.feed .entry');
             expect(entries.length).toBeGreaterThan(0);
-            done();
         })
 
     })
@@ -110,13 +104,15 @@ $(function() {
 
         beforeEach(function(done) {
             previewsUrl = $('.entry-link').attr('href');
-            loadFeed(1, done);
+            loadFeed(1, function() {
+                done();
+            });
         })
         /* TODO: Write a test that ensures when a new feed is loaded
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
-        it('should change content if a new fedd is loaded', function() {
+        it('should change content if a new feed is loaded', function(done) {
             newUrl = $('.entry-link').attr('href');
             expect(newUrl).not.toBe(previewsUrl);
             done();
